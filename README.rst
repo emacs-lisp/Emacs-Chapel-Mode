@@ -39,5 +39,5 @@ following in your ``.emacs.d/init.el`` file:
 
 .. code-block:: emacs-lisp
 
-    (autoload 'chpl-mode "chpl-mode" "Chapel enhanced cc-mode" t)
-    (add-to-list 'auto-mode-alist '("\\.chpl$" . chpl-mode))
+    (autoload 'chapel-mode "chapel-mode" "Chapel enhanced cc-mode" t)
+    (add-to-list 'auto-mode-alist '("\\.chpl$" . chapel-mode))
