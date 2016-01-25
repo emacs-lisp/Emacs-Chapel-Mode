@@ -32,7 +32,7 @@ For those who want only formal, tagged releases use MELPA Stable::
 
 and then use M-x package-list-package to get to the package listing and install from there. MELPA tracks
 this Git repository and updates relatively soon after each commit or formal release. For more detail on
-setting up see `MELPA Getting Started<https://melpa.org/#/getting-started>`_.
+setting up see `MELPA Getting Started <https://melpa.org/#/getting-started>`_.
 
 To use this mode without packaging put the chapel-mode.el file into your ``.emacs.d`` directory and add the
 following in your ``.emacs.d/init.el`` file:
