@@ -1,25 +1,32 @@
-;;; chpl-mode.el --- a CC Mode for Chapel derived from derived-mode-ex.el
+;;; chapel-mode.el --- a CC Mode for Chapel derived from derived-mode-ex.el
 
-;; Author:     2007 Steven T Balensiefer
+;; Author:     Steven T Balensiefer
+;; Contributor: Russel Winder
 ;; Maintainer: Chapel group <chapel_info@cray.com>
 ;; Created:    December 2002
-;; Version:    0.7
+;; Version:    201601251824
 ;; Keywords:   Chapel languages oop
 
-;; This program is free software; you can redistribute it and/or modify
+;;;; NB Version number is date and time yyyymmddhhMM UTC.
+
+;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or
+;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
-;; 
+
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;; 
+
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-;; Boston, MA 02111-1307, USA.
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Usage:
+;; If you not used packaging to install this mode then put these lines in
+;; your init file.
+;;   (autoload 'chapel-mode "chapel-mode" "Major mode for editing Chapel code." t)
+;;   (add-to-list 'auto-mode-alist '("\\.chpl\\'" . chapel-mode))
 
 ;;; Commentary:
 
@@ -50,36 +57,36 @@
   ;; mode as the fallback for the constants we don't change here.
   ;; This needs to be done also at compile time since the language
   ;; constants are evaluated then.
-  (c-add-language 'chpl-mode 'c-mode))
+  (c-add-language 'chapel-mode 'c-mode))
 
-;; Define chpl primitive types
+;; Define chapel primitive types
 
 (c-lang-defconst c-primitive-type-kwds
-  chpl '("bool"
-         "complex"
-         "domain"
-         "imag" "index" "int"
-         "locale"
-         "opaque"
-         "range" "real"
-         "string" "subdomain"
-         "uint"))
+  chapel '("bool"
+           "complex"
+           "domain"
+           "imag" "index" "int"
+           "locale"
+           "opaque"
+           "range" "real"
+           "string" "subdomain"
+           "uint"))
 
-;; Define chpl type modifiers
+;; Define chapel type modifiers
 (c-lang-defconst c-type-modifier-kwds
   "Type modifier keywords.  These can occur almost anywhere in types
 but they don't build a type of themselves.  Unlike the keywords on
 `c-primitive-type-kwds', they are fontified with the keyword face and
 not the type face."
-  chpl '("const" "config"
-         "export" "extern"
-         "inline" "iter"
-         "module"
-         "param" "private" "proc" "public"
-         "require"
-         "type"
-         "use"
-         "var"))
+  chapel '("const" "config"
+           "export" "extern"
+           "inline" "iter"
+           "module"
+           "param" "private" "proc" "public"
+           "require"
+           "type"
+           "use"
+           "var"))
 
 ;; Class-style declarations
 (c-lang-defconst c-class-decl-kwds
@@ -94,11 +101,11 @@ will be handled.
 Note that presence on this list does not automatically treat the
 following identifier as a type; the keyword must also be present on
 `c-type-prefix-kwds' or `c-type-list-kwds' to accomplish that."
-  chpl '("class" "record" "union"))
+  chapel '("class" "record" "union"))
 
 (c-lang-defconst c-type-start-kwds
   "Keywords that can start a type."
-  chpl '("class" "enum" "record" "type" "union"))
+  chapel '("class" "enum" "record" "type" "union"))
 
 ;; Type aliases
 (c-lang-defconst c-typedef-decl-kwds
@@ -112,7 +119,7 @@ will be handled."
   ;; Default to `c-class-decl-kwds' and `c-brace-list-decl-kwds'
   ;; (since e.g. "Foo" is a type that's being defined in "class Foo
   ;; {...}").
-  chpl '("type"))
+  chapel '("type"))
 
 
 (c-lang-defconst c-typeless-decl-kwds
@@ -126,7 +133,7 @@ will be handled."
   ;; Default to `c-class-decl-kwds' and `c-brace-list-decl-kwds'
   ;; (since e.g. "Foo" is the identifier being defined in "class Foo
   ;; {...}").
-  chpl '("const" "iter" "module" "param" "proc" "type" "var"))
+  chapel '("const" "iter" "module" "param" "proc" "type" "var"))
 
 (c-lang-defconst c-ref-list-kwds
   "Keywords that may be followed by a comma separated list of
@@ -137,47 +144,47 @@ be mutually exclusive with `c-type-list-kwds'.
 
 Note: Use `c-typeless-decl-kwds' for keywords followed by a function
 or variable identifier (that's being defined)."
-  chpl '("use"))
+  chapel '("use"))
 
 (c-lang-defconst c-block-stmt-1-kwds
   "Statement keywords followed directly by a substatement."
-  chpl '("do" "else" "then"))
+  chapel '("do" "else" "then"))
 
 (c-lang-defconst c-block-stmt-2-kwds
   "Statement keywords followed by a paren sexp and then by a substatement."
-  chpl '("select"))
+  chapel '("select"))
   ; putting "if" "for" "forall" here would cause
   ; weird indentation since parens not required
 
 (c-lang-defconst c-simple-stmt-kwds
   "Statement keywords followed by an expression or nothing."
-  chpl '("break" "continue" "return" "yield"))
+  chapel '("break" "continue" "return" "yield"))
 
 (c-lang-defconst c-label-kwds
   "Keywords introducing colon terminated labels in blocks."
-  chpl '("otherwise" "when"))
+  chapel '("otherwise" "when"))
 
 (c-lang-defconst c-constant-kwds
   "Keywords for constants."
-  chpl    '("false" "nil" "true"))
+  chapel '("false" "nil" "true"))
 
 (c-lang-defconst c-primary-expr-kwds
   "Keywords besides constants and operators that start primary expressions."
-  chpl '("new" "delete")) ;; Not really a keyword, but practically works as one.
+  chapel '("new" "delete")) ;; Not really a keyword, but practically works as one.
 
 
 (c-lang-defconst c-other-kwds
   "Keywords not accounted for by any other `*-kwds' language constant."
-  chpl '("align" "atomic" "begin" "by" "cobegin" "coforall" "dmapped" "for" "forall" "if" "in" "inout" "local" "noinit" "on" "out" "reduce" "ref" "scan" "serial" "single" "sparse" "sync" "where" "while" "with" "zip"))
+  chapel '("align" "atomic" "begin" "by" "cobegin" "coforall" "dmapped" "for" "forall" "if" "in" "inout" "local" "noinit" "on" "out" "reduce" "ref" "scan" "serial" "single" "sparse" "sync" "where" "while" "with" "zip"))
 
-;;; Chpl.
+;;; Chapel.
 
-(defun c-font-lock-chpl-new (limit)
+(defun c-font-lock-chapel-new (limit)
   ;; Assuming point is after a "new" word, check that it isn't inside
   ;; a string or comment, and if so try to fontify the type in the
   ;; allocation expression.  Nil is always returned.
   ;;
-  ;; As usual, Chpl takes the prize in coming up with a hard to parse
+  ;; As usual, Chapel takes the prize in coming up with a hard to parse
   ;; syntax. :P
 
   (unless (c-skip-comments-and-strings limit)
@@ -238,7 +245,7 @@ or variable identifier (that's being defined)."
 		(when (setq expr1-res (c-forward-type))
 		  (unless (looking-at
 			   (cc-eval-when-compile
-			     (concat (c-lang-const c-symbol-start chpl)
+			     (concat (c-lang-const c-symbol-start chapel)
 				     "\\|[*:\)\[]")))
 		    ;; There's something after the would-be type that
 		    ;; can't be there, so this is a placement arglist.
@@ -248,7 +255,7 @@ or variable identifier (that's being defined)."
 		(when (setq expr2-res (c-forward-type))
 		  (unless (looking-at
 			   (cc-eval-when-compile
-			     (concat (c-lang-const c-symbol-start chpl)
+			     (concat (c-lang-const c-symbol-start chapel)
 				     "\\|[*:\)\[]")))
 		    ;; There's something after the would-be type that can't
 		    ;; be there, so this is an initialization expression.
@@ -291,37 +298,37 @@ or variable identifier (that's being defined)."
 	  (c-fontify-recorded-types-and-refs)))))
   nil)
 
-(c-override-default-keywords 'chpl-font-lock-keywords)
+(c-override-default-keywords 'chapel-font-lock-keywords)
 
-(defconst chpl-font-lock-keywords-1 (c-lang-const c-matchers-1 chpl)
-  "Minimal font locking for Chpl mode.
+(defconst chapel-font-lock-keywords-1 (c-lang-const c-matchers-1 chapel)
+  "Minimal font locking for Chapel mode.
 Fontifies only preprocessor directives (in addition to the syntactic
 fontification of strings and comments).")
 
-(defconst chpl-font-lock-keywords-2 (c-lang-const c-matchers-2 chpl)
-  "Fast normal font locking for Chpl mode.
-In addition to `chpl-font-lock-keywords-1', this adds fontification of
+(defconst chapel-font-lock-keywords-2 (c-lang-const c-matchers-2 chapel)
+  "Fast normal font locking for Chapel mode.
+In addition to `chapel-font-lock-keywords-1', this adds fontification of
 keywords, simple types, declarations that are easy to recognize, the
-user defined types on `chpl-font-lock-extra-types', and the doc comment
+user defined types on `chapel-font-lock-extra-types', and the doc comment
 styles specified by `c-doc-comment-style'.")
 
-(defconst chpl-font-lock-keywords-3 (c-lang-const c-matchers-3 chpl)
-  "Accurate normal font locking for Chpl mode.
-Like `chpl-font-lock-keywords-2' but detects declarations in a more
+(defconst chapel-font-lock-keywords-3 (c-lang-const c-matchers-3 chapel)
+  "Accurate normal font locking for Chapel mode.
+Like `chapel-font-lock-keywords-2' but detects declarations in a more
 accurate way that works in most cases for arbitrary types without the
-need for `chpl-font-lock-extra-types'.")
+need for `chapel-font-lock-extra-types'.")
 
-(defvar chpl-font-lock-keywords chpl-font-lock-keywords-3
-  "Default expressions to highlight in Chpl mode.")
+(defvar chapel-font-lock-keywords chapel-font-lock-keywords-3
+  "Default expressions to highlight in Chapel mode.")
 
-(defun chpl-font-lock-keywords-2 ()
-  (c-compose-keywords-list chpl-font-lock-keywords-2))
-(defun chpl-font-lock-keywords-3 ()
-  (c-compose-keywords-list chpl-font-lock-keywords-3))
-(defun chpl-font-lock-keywords ()
-  (c-compose-keywords-list chpl-font-lock-keywords))
+(defun chapel-font-lock-keywords-2 ()
+  (c-compose-keywords-list chapel-font-lock-keywords-2))
+(defun chapel-font-lock-keywords-3 ()
+  (c-compose-keywords-list chapel-font-lock-keywords-3))
+(defun chapel-font-lock-keywords ()
+  (c-compose-keywords-list chapel-font-lock-keywords))
 
-(defvar cc-imenu-chpl-generic-expression
+(defvar cc-imenu-chapel-generic-expression
   '((nil "^[ \t]*\\def\\|(function\\)[ \t\n]+\\([a-zA-Z0-9_.:]+\\)" 2))
   "Imenu expression for Chapel-mode.  See `imenu-generic-expression'.")
 
@@ -329,64 +336,63 @@ need for `chpl-font-lock-extra-types'.")
 ;; Support for Chapel mode
 
 ;;;###autoload
-(defvar chpl-mode-syntax-table nil
-  "Syntax table used in chpl-mode buffers.")
-(or chpl-mode-syntax-table
-    (setq chpl-mode-syntax-table
-	  (funcall (c-lang-const c-make-mode-syntax-table chpl))))
+(defvar chapel-mode-syntax-table nil
+  "Syntax table used in chapel-mode buffers.")
+(or chapel-mode-syntax-table
+    (setq chapel-mode-syntax-table
+	  (funcall (c-lang-const c-make-mode-syntax-table chapel))))
 
-(defvar chpl-mode-abbrev-table nil
-  "Abbreviation table used in chpl-mode buffers.")
-(c-define-abbrev-table 'chpl-mode-abbrev-table
+(defvar chapel-mode-abbrev-table nil
+  "Abbreviation table used in chapel-mode buffers.")
+(c-define-abbrev-table 'chapel-mode-abbrev-table
   '(("else" "else" c-electric-continued-statement 0)
     ("while" "while" c-electric-continued-statement 0)
     ("catch" "catch" c-electric-continued-statement 0)))
 
-(defvar chpl-mode-map ()
-  "Keymap used in chpl-mode buffers.")
-(if chpl-mode-map
+(defvar chapel-mode-map ()
+  "Keymap used in chapel-mode buffers.")
+(if chapel-mode-map
     nil
-  (setq chpl-mode-map (c-make-inherited-keymap))
-  ;; add bindings which are only useful for chpl
-  (define-key chpl-mode-map "\C-c\C-e" 'c-macro-expand)
-  (define-key chpl-mode-map "\C-c:"    'c-scope-operator)
-  (define-key chpl-mode-map "<"        'c-electric-lt-gt)
-  (define-key chpl-mode-map ">"        'c-electric-lt-gt))
+  (setq chapel-mode-map (c-make-inherited-keymap))
+  ;; add bindings which are only useful for chapel
+  (define-key chapel-mode-map "\C-c\C-e" 'c-macro-expand)
+  (define-key chapel-mode-map "\C-c:"    'c-scope-operator)
+  (define-key chapel-mode-map "<"        'c-electric-lt-gt)
+  (define-key chapel-mode-map ">"        'c-electric-lt-gt))
 
-(easy-menu-define c-chpl-menu chpl-mode-map "chpl Mode Commands"
-		  (cons "chpl" (c-lang-const c-mode-menu chpl)))
+(easy-menu-define c-chapel-menu chapel-mode-map "Chapel Mode Commands"
+		  (cons "chapel" (c-lang-const c-mode-menu chapel)))
+
+;;;###autoload (add-to-list 'auto-mode-alist '("\\.chpl\\'" . chapel-mode))
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.chpl\\'" . chpl-mode))
-
-;;;###autoload
-(defun chpl-mode ()
+(defun chapel-mode ()
   "Major mode for editing Chapel code.
 
 To see what version of CC Mode you are running, enter `\\[c-version]'.
 
 The hook `c-mode-common-hook' is run with no args at mode
-initialization, then `chpl-mode-hook'.
+initialization, then `chapel-mode-hook'.
 
 Key bindings:
-\\{chpl-mode-map}"
+\\{chapel-mode-map}"
   (interactive)
   (kill-all-local-variables)
   (c-initialize-cc-mode t)
-  (set-syntax-table chpl-mode-syntax-table)
-  (setq major-mode 'chpl-mode
+  (set-syntax-table chapel-mode-syntax-table)
+  (setq major-mode 'chapel-mode
 	mode-name "Chapel"
-	local-abbrev-table chpl-mode-abbrev-table
+	local-abbrev-table chapel-mode-abbrev-table
 	abbrev-mode t)
-  (use-local-map chpl-mode-map)
-  (c-init-language-vars chpl-mode)
-  (c-common-init 'chpl-mode)
-  (easy-menu-add c-chpl-menu)
-  (cc-imenu-init cc-imenu-chpl-generic-expression)
+  (use-local-map chapel-mode-map)
+  (c-init-language-vars chapel-mode)
+  (c-common-init 'chapel-mode)
+  (easy-menu-add c-chapel-menu)
+  (cc-imenu-init cc-imenu-chapel-generic-expression)
   (run-hooks 'c-mode-common-hook)
-  (run-hooks 'chpl-mode-hook)
+  (run-hooks 'chapel-mode-hook)
   (c-update-modeline))
 
-(provide 'chpl-mode)
+(provide 'chapel-mode)
 
-;;; derived-mode-ex.el ends here
+;;; chapel-mode.el ends here
