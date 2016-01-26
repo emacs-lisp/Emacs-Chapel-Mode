@@ -371,7 +371,17 @@ need for `chapel-font-lock-extra-types'.")
 ;;;###autoload (add-to-list 'auto-mode-alist '("\\.chpl\\'" . chapel-mode))
 
 ;;;###autoload
-(defun chapel-mode ()
+(defcustom chapel-mode-hook nil
+  "*Hook called by `chapel-mode'."
+  :type 'hook
+  :group 'c)
+
+;; For compatibility with Emacs < 24
+(defalias 'chapel-parent-mode
+  (if (fboundp 'prog-mode) 'prog-mode 'fundamental-mode))
+
+;;;###autoload
+(define-derived-mode chapel-mode chapel-parent-mode "Chapel"
   "Major mode for editing Chapel code.
 
 To see what version of CC Mode you are running, enter `\\[c-version]'.
