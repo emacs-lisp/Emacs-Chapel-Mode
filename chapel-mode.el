@@ -2,9 +2,9 @@
 
 ;; Author:     Steven T Balensiefer
 ;; Contributor: Russel Winder
-;; Maintainer: Chapel group <chapel_info@cray.com>
+;; Maintainer: Russel Winder <russel@winder.org.uk>
 ;; Created:    December 2002
-;; Version:    201601251824
+;; Version:    201601260655
 ;; Keywords:   Chapel languages oop
 
 ;;;; NB Version number is date and time yyyymmddhhMM UTC.
