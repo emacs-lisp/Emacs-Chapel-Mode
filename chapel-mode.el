@@ -41,6 +41,11 @@
 
 ;;; Code:
 
+;; Work around emacs bug#18845, cc-mode expects cl to be loaded
+(eval-and-compile
+  (when (and (= emacs-major-version 24) (>= emacs-minor-version 4))
+    (require 'cl)))
+
 (require 'cc-mode)
 
 ;; These are only required at compile time to get the sources for the
