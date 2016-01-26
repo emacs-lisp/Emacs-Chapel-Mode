@@ -391,21 +391,15 @@ initialization, then `chapel-mode-hook'.
 
 Key bindings:
 \\{chapel-mode-map}"
-  (interactive)
-  (kill-all-local-variables)
   (c-initialize-cc-mode t)
-  (set-syntax-table chapel-mode-syntax-table)
-  (setq major-mode 'chapel-mode
-	mode-name "Chapel"
-	local-abbrev-table chapel-mode-abbrev-table
+  (setq local-abbrev-table chapel-mode-abbrev-table
 	abbrev-mode t)
   (use-local-map chapel-mode-map)
   (c-init-language-vars chapel-mode)
   (c-common-init 'chapel-mode)
   (easy-menu-add c-chapel-menu)
   (cc-imenu-init cc-imenu-chapel-generic-expression)
-  (run-hooks 'c-mode-common-hook)
-  (run-hooks 'chapel-mode-hook)
+  (run-hooks 'c-mode-common-hook 'chapel-mode-hook)
   (c-update-modeline))
 
 (provide 'chapel-mode)
