@@ -2,6 +2,8 @@
 Emacs Chapel Mode
 =================
 
+.. image:: http://melpa.org/packages/chapel-mode-badge.svg
+
 This directory contains Emacs e-lisp files that perform simple formatting of Chapel code.  Support for
 Chapel formatting with these files is far from perfect, but far better than having no formatting at all (we
 find).  Thanks to Steve Balensiefer for providing the initial version of the Chapel mode.
@@ -15,19 +17,24 @@ package module to achieve the same installation method.
 Add MELPA (or MELPA Stable if you want the formal releases rather than a rolling release based on Git
 commits).
 
-For those who want rolling releases as they happen use MELPA::
+For those who want rolling releases as they happen use MELPA:
 
-    (require 'package)
-    (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-    (package-initialize)
+.. code:: elisp
 
-For those who want only formal, tagged releases use MELPA Stable::
+     (require 'package)
+     (add-to-list 'package-archives
+         '("melpa" . "https://melpa.org/packages/") t)
+     (package-initialize)
 
-    (require 'package)
-    (add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-    (package-initialize)
+
+For those who want only formal, tagged releases use MELPA Stable:
+
+.. code:: elisp
+
+     (require 'package)
+     (add-to-list 'package-archives
+         '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+     (package-initialize)
 
 
 and then use M-x package-list-package to get to the package listing and install from there. MELPA tracks
@@ -37,7 +44,7 @@ setting up see `MELPA Getting Started <https://melpa.org/#/getting-started>`_.
 To use this mode without packaging put the chapel-mode.el file into your ``.emacs.d`` directory and add the
 following in your ``.emacs.d/init.el`` file:
 
-.. code-block:: emacs-lisp
+.. code:: elisp
 
-    (autoload 'chapel-mode "chapel-mode" "Chapel enhanced cc-mode" t)
-    (add-to-list 'auto-mode-alist '("\\.chpl$" . chapel-mode))
+   (autoload 'chapel-mode "chapel-mode" "Chapel enhanced cc-mode" t)
+   (add-to-list 'auto-mode-alist '("\\.chpl$" . chapel-mode))
