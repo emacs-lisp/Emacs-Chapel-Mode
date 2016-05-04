@@ -46,6 +46,9 @@
   (when (and (= emacs-major-version 24) (>= emacs-minor-version 4))
     (require 'cl)))
 
+;; Need to exclude xemacs from some behavior
+(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+
 (require 'cc-mode)
 
 ;; These are only required at compile time to get the sources for the
@@ -346,6 +349,12 @@ need for `chapel-font-lock-extra-types'.")
 (or chapel-mode-syntax-table
     (setq chapel-mode-syntax-table
 	  (funcall (c-lang-const c-make-mode-syntax-table chapel))))
+
+;; Nested block comments -- add "n" to the syntax table entry for "*"
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Flags.html#Syntax-Flags
+(if (not running-xemacs) ; xemacs doesn't support the "n" modifier.
+    (modify-syntax-entry ?* ". 23n" chapel-mode-syntax-table))
+
 
 (defvar chapel-mode-abbrev-table nil
   "Abbreviation table used in chapel-mode buffers.")
