@@ -2,7 +2,12 @@
 Emacs Chapel Mode
 =================
 
-.. image:: http://melpa.org/packages/chapel-mode-badge.svg
+.. image:: https://img.shields.io/badge/license-GPL_3-green.svg
+           :target: https://www.gnu.org/licenses/gpl-3.0.txt
+.. image:: https://melpa.org/packages/chapel-mode-badge.svg
+           :target: https://melpa.org/#/chapel-mode
+.. image:: https://stable.melpa.org/packages/chapel-mode-badge.svg
+           :target: https://stable/melpa.org/#/chapel-mode
 
 This directory contains Emacs e-lisp files that perform simple formatting of Chapel code.  Support for
 Chapel formatting with these files is far from perfect, but far better than having no formatting at all (we
