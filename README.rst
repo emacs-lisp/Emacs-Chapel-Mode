@@ -53,3 +53,5 @@ following in your ``.emacs.d/init.el`` file:
 
    (autoload 'chapel-mode "chapel-mode" "Chapel enhanced cc-mode" t)
    (add-to-list 'auto-mode-alist '("\\.chpl$" . chapel-mode))
+
+This software is licenced using GNU General Public Licence version 3.
